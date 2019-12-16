@@ -1,26 +1,72 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+class Form extends Component {
+  state = {
+    firstName: '',
+    lastName: '',
+    people: []
+  }
 
-export default App;
+  handleChange = (event) => {
+    this.setState({
+      [event.target.name]: [event.target.value]
+    })
+  } 
+
+  handleOnSubmit = (e) => {
+    e.preventDefault();
+    let firstName = this.state.firstName;
+    let lastName = this.state.lastName;
+    console.log(firstName,lastName)
+    if (firstName.length>0&&lastName.length>0) {
+      const person = ` ${firstName} ${lastName} `;
+      this.setState({
+        people: [...this.state.people,person],
+        firstName: '',
+        lastName: ''
+      })
+    }
+  }
+
+  render() {
+    return (
+      <section>
+        <article>
+          <form onSubmit={this.handleOnSubmit}>
+            <input 
+              type="text" 
+              name="firstName" 
+              value={this.state.firstName}
+              onChange={this.handleChange}
+              />
+            <input 
+              type="text" 
+              name="lastName" 
+              value={this.state.lastName}
+              onChange={this.handleChange}
+            />
+            <button type="submit">submit</button>
+          </form>
+        </article>
+        <article>
+          <div>
+            <h1>prople</h1>
+            <div>{this.state.people}</div>
+          </div>
+        </article>
+      </section>
+    )
+  }
+}
+ class App extends Component {
+
+  render() {
+    return (
+      <>
+        <Form />
+      </>
+    );
+  }
+}
+export default App
